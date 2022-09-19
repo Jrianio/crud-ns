@@ -1,0 +1,11 @@
+com\co\development\ejb\EmpleadosFacade.class
+com\co\development\controller\managedEmpleados.class
+com\co\development\ejb\DepartamentosFacade.class
+com\co\development\entity\Departamentos.class
+com\co\development\entity\Departamentos_.class
+com\co\development\entity\Empleados.class
+com\co\development\ejb\DepartamentosFacadeLocal.class
+com\co\development\controller\managedDepartamentos.class
+com\co\development\entity\Empleados_.class
+com\co\development\ejb\EmpleadosFacadeLocal.class
+com\co\development\ejb\AbstractFacade.class

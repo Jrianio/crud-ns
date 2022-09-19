@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Departamento | Nexos Software</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:button outcome="/login.xhtml" value="Regresar Inicio" />
+        </h:form>      
+
+        <p:growl id="message" />
+
+        <h:form id="crudDepartamentos" >
+            <p:commandButton value="Crear" oncomplete="PF('dlgCrearDepartamento').show();"/>
+        </h:form>
+
+        <!-- #INI: TABLA DEPARTAMENTOS -->
+        <h:form id="tblDepartamentos" >
+            <p:dataTable value="#{managedDepartamentos.listaDepartamentos}" 
+                         var="dep" 
+                         paginator="true"                        
+                         rowsPerPageTemplate="5,10,{ShowAll|'Todos'}">
+                <p:column headerText="Id" >
+                    <h:outputText value="#{dep.id}" />
+                </p:column>
+                <p:column headerText="Código" >
+                    <h:outputText value="#{dep.departamentoCodigo}" />
+                </p:column>                    
+                <p:column headerText="Nombre" >
+                    <h:outputText value="#{dep.departamentoNombre}" />
+                </p:column>
+                <p:column headerText="Fecha Creación" >
+                    <h:outputText value="#{dep.fechaHoraCrea}" >
+                        <f:convertDateTime parent="YYYY-MM-dd HH:mm" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Fecha Modificación" >
+                    <h:outputText value="#{dep.fechaHoraModifica}" >
+                        <f:convertDateTime parent="YYYY-MM-dd HH:mm" />
+                    </h:outputText>
+                </p:column>   
+                <p:column >
+                    <p:commandButton value="Eliminar" actionListener="#{managedDepartamentos.eliminar(dep)}" 
+                                     update=":tblDepartamentos :message"/>
+                </p:column>
+                <p:column >                    
+                    <p:commandButton value="Editar" 
+                                     actionListener="#{managedDepartamentos.showData(dep)}"
+                                     update=":tblDepartamentos" 
+                                     oncomplete="PF('dlgCrearDepartamento').show();"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <!-- #FIN: TABLA DEPARTAMENTOS -->        
+
+        <!-- #INI: D I A L O G S -->
+        <p:dialog widgetVar="dlgCrearDepartamento" modal="true" showEffect="clip" header="Crear Departamento" resizable="false" >
+            <p:ajax event="close" listener="#{managedDepartamentos.clear()}" update=":tblDepartamentos" />
+            <h:form id="formCrearDepartamento" >
+                <p:panelGrid columns="2" >
+                    <p:outputLabel value="Código:" />
+                    <p:inputText value="#{managedDepartamentos.departamentos.departamentoCodigo}"/>
+                    <p:outputLabel value="Nombre:" />
+                    <p:inputText value="#{managedDepartamentos.departamentos.departamentoNombre}"/>
+                    <p:commandButton value="Guardar" 
+                                     actionListener="#{managedDepartamentos.guardar()}" 
+                                     oncomplete="PF('dlgCrearDepartamento').hide();"
+                                     update=":tblDepartamentos formCrearDepartamento :message"
+                                     rendered="#{managedDepartamentos.departamentos.id == 0}"
+                                     />
+                    <p:commandButton value="Actualizar" 
+                                     actionListener="#{managedDepartamentos.editar()}" 
+                                     oncomplete="PF('dlgCrearDepartamento').hide();"
+                                     update=":tblDepartamentos formCrearDepartamento :message" 
+                                     rendered="#{managedDepartamentos.departamentos.id != 0}"
+                                     />                    
+                </p:panelGrid>
+            </h:form>
+        </p:dialog> 
+        <!-- #END: D I A L O G S -->        
+
+    </h:body>
+</html>
+
